@@ -34,7 +34,7 @@ public class Temperatura {
   }
 
   public int getMaxima() {
-    return minima;
+    return maxima;
   }
 
   public void setMaxima(int maxima) {

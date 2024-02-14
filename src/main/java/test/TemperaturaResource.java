@@ -1,35 +1,42 @@
 package test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
+import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 @Path("temperaturas")
 public class TemperaturaResource {
 
-  private List<Temperatura> valores = new ArrayList<>();
+  private TemperaturasService temperaturas;
+
+  @Inject
+  public TemperaturaResource(TemperaturasService temperaturas) {
+    this.temperaturas = temperaturas;
+  }
 
   @POST
+  @Produces(MediaType.APPLICATION_JSON)
   public Temperatura nueva(Temperatura temp) {
-    valores.add(temp);
+    temperaturas.addTemperatura(temp);
     return temp;
   }
 
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   public java.util.List<Temperatura> list() {
-    return Collections.unmodifiableList(valores);
+    return temperaturas.obtenerTemperaturas();
   }
 
   @GET
   @Produces(MediaType.APPLICATION_JSON)
-  @Path("/una")
-  public Temperatura medicion() {
-    return new Temperatura("malaga", 18, 28);
+  @Path("/maxima")
+  public Response maxima() {
+    if (temperaturas.isEmpty()) {
+      return Response.status(404).entity("no hay temperaturas").build();
+    } else {
+      int temperaturaMaxima = temperaturas.maxima();
+      return Response.ok(Integer.toString(temperaturaMaxima)).build();
+    }
   }
 }
