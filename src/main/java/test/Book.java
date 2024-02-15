@@ -23,6 +23,8 @@ public class Book {
 
   private String description;
 
+  private String genre;
+
   @CreationTimestamp
   private LocalDate createDate;
 
@@ -43,6 +45,14 @@ public class Book {
 
   public void setTitle(String title) {
     this.title = title;
+  }
+
+  public String getGenre() {
+    return genre;
+  }
+
+  public void setGenre(String genre) {
+    this.genre = genre;
   }
 
   public int getNumPages() {
