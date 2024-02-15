@@ -2,6 +2,7 @@ package test;
 
 import java.util.List;
 
+import io.quarkus.panache.common.Sort;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
@@ -15,8 +16,13 @@ public class BookResource {
   private BookRepository bookRepository;
 
   @GET
-  public List<Book> index() {
-    return bookRepository.listAll();
+  public List<Book> index(@QueryParam("numPages") Integer numPages) {
+    if (numPages == null) {
+      return bookRepository.listAll(Sort.by("pubDate", Sort.Direction.Descending));
+    } else {
+      return bookRepository.list("numPages >= ?1", numPages);
+    }
+
   }
 
   @POST
