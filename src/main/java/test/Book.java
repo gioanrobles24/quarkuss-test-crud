@@ -69,6 +69,22 @@ public class Book {
     return description;
   }
 
+  public LocalDate getCreateDate() {
+    return createDate;
+  }
+
+  public void setCreateDate(LocalDate createDate) {
+    this.createDate = createDate;
+  }
+
+  public LocalDate getUpdateDate() {
+    return updateDate;
+  }
+
+  public void setUpdateDate(LocalDate updateDate) {
+    this.updateDate = updateDate;
+  }
+
   @Override
   public String toString() {
     return "book [title = " + title + ", numPages= " + numPages + ", pubDate= " + pubDate + "]";
