@@ -46,4 +46,20 @@ public class BookResource {
 
   }
 
+  @PUT
+  @Path("{id}")
+  public Book updateBookById(@PathParam("id") Long id, Book book) {
+    var updateBook = bookRepository.findById(id);
+    if (updateBook != null) {
+      updateBook.setTitle(book.getTitle());
+      updateBook.setDescription(book.getDescription());
+      updateBook.setNumPages(book.getNumPages());
+      updateBook.setPubDate(book.getPubDate());
+      bookRepository.persist(updateBook);
+      return updateBook;
+    } else {
+      throw new Error("no existe ese registro");
+    }
+  }
+
 }
