@@ -15,6 +15,9 @@ public class GenreResource {
   @Inject
   private GenreRepository genresRepo;
 
+  @Inject
+  private GenreMapper mapper;
+
   @GET
   public PaginatedResponse<Genre> genreList(
       @QueryParam("page") @DefaultValue("1") int page) {
@@ -24,9 +27,10 @@ public class GenreResource {
   }
 
   @POST
-  public Genre insert(Genre genre) {
-    genresRepo.persist(genre);
-    return genre;
+  public Genre create(CreateGenreDTO genre) {
+    var entity = mapper.fromCreate(genre);
+    genresRepo.persist(entity);
+    return entity;
   }
 
   @GET
@@ -52,7 +56,7 @@ public class GenreResource {
 
   @PUT
   @Path("{id}")
-  public Genre updateGenreById(@PathParam("id") Long id, Genre genre) {
+  public Genre updateGenreById(@PathParam("id") Long id, CreateGenreDTO genre) {
     var updateGenre = genresRepo.findById(id);
     if (updateGenre != null) {
       updateGenre.setName(updateGenre.getName());
