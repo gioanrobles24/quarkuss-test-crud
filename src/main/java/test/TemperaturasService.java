@@ -3,6 +3,7 @@ package test;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import jakarta.enterprise.context.ApplicationScoped;
 
@@ -26,5 +27,10 @@ public class TemperaturasService implements ITemperaturaService {
   @Override
   public boolean isEmpty() {
     return valores.isEmpty();
+  }
+
+  @Override
+  public Optional<Temperatura> sacarTemperatura(String ciudad) {
+    return valores.stream().filter(t -> t.getCiudad().equals(ciudad)).findAny();
   }
 }

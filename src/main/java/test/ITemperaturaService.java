@@ -1,5 +1,6 @@
 package test;
 import java.util.List;
+import java.util.Optional;
 
 
 public interface ITemperaturaService {
@@ -8,7 +9,9 @@ public interface ITemperaturaService {
 
   List<Temperatura> obtenerTemperaturas();
 
-  boolean isEmpty();
+  Optional<Temperatura> sacarTemperatura(String ciudad);
   
+  boolean isEmpty();
+
   int maxima();
 }

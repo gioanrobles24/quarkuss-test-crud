@@ -39,4 +39,11 @@ public class TemperaturaResource {
       return Response.ok(Integer.toString(temperaturaMaxima)).build();
     }
   }
+
+  @GET
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path("{ciudad}")
+  public Temperatura sacar(@PathParam("ciudad") String ciudad) {
+   return temperaturas.sacarTemperatura(ciudad).get();
+  }
 }
