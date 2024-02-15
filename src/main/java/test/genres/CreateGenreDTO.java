@@ -1,7 +1,8 @@
 package test.genres;
 
+import jakarta.validation.constraints.*;
+
 public record CreateGenreDTO(
-  String name
-) {
-  
+    @NotBlank String name) {
+
 }

@@ -3,6 +3,7 @@ package test.genres;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.Response;
 import test.PaginatedResponse;
 
 import io.quarkus.panache.common.Page;
@@ -18,6 +19,9 @@ public class GenreResource {
   @Inject
   private GenreMapper mapper;
 
+  @Inject
+  private GenreValidator validator;
+
   @GET
   public PaginatedResponse<Genre> genreList(
       @QueryParam("page") @DefaultValue("1") int page) {
@@ -27,10 +31,16 @@ public class GenreResource {
   }
 
   @POST
-  public Genre create(CreateGenreDTO genre) {
+  public Response create(CreateGenreDTO genre) {
+    var error = this.validator.validateGenre(genre);
+    if(error.isPresent()) {
+      var msg = error.get();
+      return Response.status(400).entity(msg).build();
+    }
+   
     var entity = mapper.fromCreate(genre);
     genresRepo.persist(entity);
-    return entity;
+    return Response.ok(entity).build();
   }
 
   @GET
